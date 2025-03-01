@@ -1,0 +1,20 @@
+{
+  "name": "wgsl-plus",
+  "version": "0.0.1",
+  "description": "A WGSL compiler with linking and multi-format output.",
+  "main": "index.js",
+  "bin": {
+    "wgsl-plus": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js"
+  },
+  "author": "Joshua Sideris",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.13.7",
+    "commander": "^13.1.0",
+    "typescript": "^5.8.2"
+  }
+}
