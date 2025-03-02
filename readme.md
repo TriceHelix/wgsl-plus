@@ -1,10 +1,10 @@
 # wgsl-plus
 
-A lightweight WGSL compiler with support for linking files via `#input` directives and outputting to multiple formats (WGSL, JS, TS).
+A lightweight WGSL compiler with support for linking files via `#import` directives and outputting to multiple formats (WGSL, JS, TS).
 
 ## Features
 
-- **File Linking**: Use `#input "path"` directives to include other WGSL files.
+- **File Linking**: Use `#import "path"` directives to include other WGSL files.
 - **Multi-Format Output**: Build to WGSL, JavaScript, or TypeScript files.
 - **Export Options**: Choose between ESM (`export`) or CommonJS (`module.exports`) for JS/TS outputs.
 - **Error Handling**: Prevents overwriting input files, ensures all linked files exist, and validates input/output formats.
@@ -43,24 +43,14 @@ Or use `npx` for one-off runs:
 
 ### Directives
 
-- `#input "path"`: Include another WGSL file relative to the current file.
+- `#import "path"`: Include another WGSL file relative to the current file.
 
 Example:
 
 ``` wgsl
-#input "utils.wgsl"
+#import "utils.wgsl"
 fn main() {}
 ```
-
-
-## Error Handling
-
-- **Input Validation**: Ensures input files exist and are `.wgsl`.
-- **Output Validation**: Prevents overwriting input files and enforces `.wgsl`, `.js`, or `.ts` extensions.
-- **Linking**: Checks that all `#input` paths exist and detects circular dependencies.
-- **Export Type**: Requires `--export-type` for `.js`/`.ts` outputs and validates the type.
-
-Errors will print a message and exit with code 1.
 
 ## Development
 
