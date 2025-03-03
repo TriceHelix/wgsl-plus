@@ -1,6 +1,6 @@
 {
   "name": "wgsl-plus",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A WGSL compiler with linking and multi-format output.",
   "main": "index.js",
   "bin": {
@@ -14,7 +14,26 @@
     "test:coverage": "jest --coverage"
   },
   "author": "Joshua Sideris",
-  "license": "ISC",
+  "keywords": [
+    "wgsl",
+    "webgpu",
+    "shader",
+    "compiler",
+    "obfuscator",
+    "minifier",
+    "pretty-printer",
+    "formatter",
+    "prettifier",
+    "beautifier",
+    "minify",
+    "obfuscate",
+    "linker"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JSideris/wgsl-plus"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.7",
