@@ -5,7 +5,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import prettify from './prettify';
 import minify from './minify';
-import obfuscate from './obfuscate';
+import obfuscate from './obfuscation/obfuscate';
 
 const VERSION = '0.0.1';
 
