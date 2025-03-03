@@ -3,7 +3,7 @@
 import { program } from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
-import prettify from './prittify';
+import prettify from './prettify';
 import minify from './minify';
 import obfuscate from './obfuscate';
 

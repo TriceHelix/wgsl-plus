@@ -1,6 +1,6 @@
 {
   "name": "wgsl-plus",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A WGSL compiler with linking and multi-format output.",
   "main": "index.js",
   "bin": {
@@ -8,13 +8,19 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "author": "Joshua Sideris",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.7",
     "commander": "^13.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.6",
     "typescript": "^5.8.2"
   }
 }
