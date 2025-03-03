@@ -282,8 +282,6 @@ describe("replaceIdentifiers", () => {
 		]);
 		const structMemberMap = new Map<string, string>([]);
 
-		console.log(tokens);
-
 		const result = replaceIdentifiers(tokens, identifierMap, structMemberMap);
 		const expected = "struct _0 { x : f32 , y : i32 } ; fn _1 ( ) { let _2 : vec2 < f32 > = vec2 < f32 > ( 1.0 , 2.0 ) ; let _3 : _0 ; let _4 = _2 . x ; let _5 = _3 . y ; }";
 		expect(tokensToString(result)).toBe(expected);

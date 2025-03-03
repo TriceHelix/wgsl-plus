@@ -9,7 +9,7 @@ import obfuscate from './obfuscation/obfuscate';
 
 const VERSION = '0.0.1';
 
-// Process a WGSL file, resolving #import directives recursively
+// Process a WGSL file, resolving #include directives recursively
 function processFile(filePath: string, processing: Set<string>, includedLines: string[]): void {
 	const absolutePath = path.resolve(filePath);
 
@@ -28,7 +28,7 @@ function processFile(filePath: string, processing: Set<string>, includedLines: s
 	const lines = content.split('\n');
 
 	for (const line of lines) {
-		const match = line.match(/^#import\s+"(.+)"\s*$/);
+		const match = line.match(/^#include\s+"(.+)"\s*$/);
 		if (match) {
 			const includePath = match[1];
 			const relativePath = path.resolve(path.dirname(absolutePath), includePath);
@@ -56,6 +56,7 @@ function removeBindingDirectives(code: string): string {
 	// Filter out lines that match the #binding directive pattern
 	const filteredLines = lines.filter(line => 
 	  !/^\s*#binding\s+"[^"]+"\s*(\/\/.*)?$/.test(line)
+	  && !/^\s*#entrypoint\s+"[^"]+"\s*(\/\/.*)?$/.test(line)
 	);
 	
 	// Rejoin the remaining lines

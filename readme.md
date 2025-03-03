@@ -1,10 +1,10 @@
 # wgsl-plus
 
-A lightweight WGSL compiler with support for linking files via `#import` directives and outputting to multiple formats (WGSL, JS, TS).
+A lightweight WGSL compiler with support for linking files via `#include` directives and outputting to multiple formats (WGSL, JS, TS). Has a built-in obfuscator, minifier, and prettifier. 
 
 ## Features
 
-- **File Linking**: Use `#import "path"` directives to include other WGSL files.
+- **File Linking**: Use `#include "path"` directives to include other WGSL files.
 - **Multi-Format Output**: Build to WGSL, JavaScript, or TypeScript files.
 - **Export Options**: Choose between ESM (`export`) or CommonJS (`module.exports`) for JS/TS outputs.
 - **Error Handling**: Prevents overwriting input files, ensures all linked files exist, and validates input/output formats.
@@ -38,19 +38,46 @@ Or use `npx` for one-off runs:
 - **Build to JavaScript (ESM)**:
   `wgsl-plus a.wgsl b.wgsl -o output.js --export-type esm`
 
-- **Build to TypeScript (CommonJS)**:
-  `wgsl-plus main.wgsl -o output.ts --export-type commonjs`
+- **Build to TypeScript**:
+  `wgsl-plus main.wgsl -o output.ts`
 
 ### Directives
 
-- `#import "path"`: Include another WGSL file relative to the current file.
+- `#include "path"`: Include another WGSL file relative to the current file.
 
 Example:
 
-``` wgsl
-#import "utils.wgsl"
+```wgsl
+#include "utils.wgsl"
+@compute
 fn main() {}
 ```
+
+- `#binding "binding_name"`: Used to instruct the obfuscator the names of bindings. The bindings will be listed in special comments at the top of the obfuscated code, which can be interpreted by a library like simple-compute-shaders to automatically insert obfuscated binding names.
+
+```wgsl
+#binding "data"
+#binding "canvas_size"
+@compute
+fn main() {}
+```
+
+- `#entrypoint "entry_point_name"`: tells the obfuscator what the entry point is. Entry point names will not be obfuscated. Multiple entryoints are supported. If no entry point is listed, `main` will be assumed. 
+
+```wgsl
+#entrypoint "my_entry_point"
+@compute
+fn my_entry_point() {}
+```
+
+## Limitations
+
+- The minifier and prettifier are both not perfect. But they are passing all essential test cases.
+- Vector swizzling poised all kinds of challenges for the obfuscator. As a result, any struct member that matches any of the >4000 swizzle name combinations (such as yz, xyz, rba, and so on) won't be obfuscated.
+
+## See Also
+
+Try [Simple Compute Shaders](https://www.npmjs.com/package/simple-compute-shaders) for a streamlined experience building pipelines for compute shaders and 2D fragment shaders.
 
 ## Development
 
@@ -66,9 +93,14 @@ To contribute or modify `wgsl-plus`:
 3. Build the project:
    `npm run build`
 
-4. Test locally:
-   `node dist/cli.js --help`
+4. Link the project:
+   `npm link`
+
+5. Test:
+   `wgsl-plus --help`
+
+Pull requests are welcome but please ask permission before changing the usage significantly.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License.
