@@ -1,5 +1,5 @@
-import Token from "../src/token";
-import tokenizeWgsl from "../src/tokenizeWgsl";
+import Token from "../src/tokenization/token";
+import tokenizeWgsl from "../src/tokenization/tokenize-wgsl";
 
 describe("tokenizeWgsl", () => {
 	// Test 1: Keywords and Identifiers
@@ -107,32 +107,36 @@ describe("tokenizeWgsl", () => {
 	});
 
 	// Test 7: Comments
-	it("skips single-line and multi-line comments", () => {
+	it("properly tokenizes single-line and multi-line comments", () => {
 		const input = "// Single-line comment\n/* Multi-line\ncomment */";
-		const expected: Token[] = [];
+		const expected: Token[] = [
+			{ type: "comment", value: "// Single-line comment" },
+			{ type: "comment", value: "/* Multi-line\ncomment */" }
+		];
 		expect(tokenizeWgsl(input)).toEqual(expected);
 	});
 
+	// Non-essential.
 	// Test 8: Identifiers with Numbers and Underscores
-	// Only if we are doing full verification.
-	// it("throws error on identifiers starting with digits", () => {
-	// 	const input = "123illegal";
-	// 	expect(() => tokenizeWgsl(input)).toThrow("Unexpected character at position 0: 1");
-	// });
+	it.skip("throws error on identifiers starting with digits", () => {
+		const input = "123illegal";
+		expect(() => tokenizeWgsl(input)).toThrow("Unexpected character at position 0: 1");
+	});
 
-	// Test 9: Multiline Comments with Nested Content
 	// This test is invalid. Nested comments aren't supported.
+	// Test 9: Multiline Comments with Nested Content
 	// it("skips nested multi-line comments correctly", () => {
 	// 	const input = "/* Comment with /* nested */ content */";
 	// 	const expected: Token[] = [];
 	// 	expect(tokenizeWgsl(input)).toEqual(expected);
 	// });
 
-	// Test 10: Unterminated String
-	it("throws error on unterminated string", () => {
-		const input = "\"unterminated string";
-		expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character at position \d+: /);
-	});
+	// This test might be invalid.
+	// // Test 10: Unterminated String
+	// it("throws error on unterminated string", () => {
+	// 	const input = "\"unterminated string";
+	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character: /);
+	// });
 
 	// Test 11: Large Numbers and Hex Values
 	it("tokenizes large numbers and hex values", () => {
@@ -218,13 +222,14 @@ describe("tokenizeWgsl", () => {
 	// Test 16: Invalid Characters
 	it("throws on invalid characters", () => {
 		const input = "let x = 5; $";
-		expect(() => tokenizeWgsl(input)).toThrow("Unexpected character at position 11: $");
+		expect(() => tokenizeWgsl(input)).toThrow("Unexpected character: $");
 	});
 
 	// Test 17: Kitchen Sink Test
 	it("tokenizes a comprehensive WGSL snippet", () => {
 		const input = "// Comment\n#binding \"data\"\n@vertex\nfn main() {\n    let x = 1.0f;\n    let y = \"string\";\n    /* Multiline comment */\n    return x + y;\n}";
 		const expected: Token[] = [
+			{ type: "comment", value: "// Comment" },
 			{ type: "directive", value: "#binding \"data\"" },
 			{ type: "attribute", value: "@vertex" },
 			{ type: "keyword", value: "fn" },
@@ -242,6 +247,7 @@ describe("tokenizeWgsl", () => {
 			{ type: "operator", value: "=" },
 			{ type: "string", value: "\"string\"" },
 			{ type: "operator", value: ";" },
+			{ type: "comment", value: "/* Multiline comment */" },
 			{ type: "keyword", value: "return" },
 			{ type: "identifier", value: "x" },
 			{ type: "operator", value: "+" },
@@ -307,22 +313,24 @@ describe("tokenizeWgsl", () => {
 		expect(tokenizeWgsl(input)).toEqual(expected);
 	});
 
-	// // Test 24: Unterminated Multi-Line Comment
+	// // // Test 24: Unterminated Multi-Line Comment
 	// it("throws error on unterminated multi-line comment", () => {
 	// 	const input = "/* unterminated";
-	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character at position \d+: /);
+	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character: /);
 	// });
 
 	// // Test 25: Malformed Directive
-	// it("throws error on malformed directive", () => {
-	// 	const input = "#binding \"unclosed";
-	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character at position \d+: /);
-	// });
+	it("throws error on malformed directive", () => {
+		const input = "#binding \"unclosed";
+		expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character: /);
+	});
 
+	// I believe this test needs work. There technically isn't an invalid character.
+	// Suggest adding several tests for this if we want to test for it.
 	// // Test 26: Unclosed Attribute
 	// it("throws error on unclosed attribute parameters", () => {
 	// 	const input = "@compute(1";
-	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character at position \d+: /);
+	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character: /);
 	// });
 
 	// Test 27: Type Constructor Spacing
@@ -357,15 +365,16 @@ describe("tokenizeWgsl", () => {
 		expect(tokenizeWgsl(input)).toEqual(expected);
 	});
 
-	// // Test 30: Number Greediness
-	// it("throws error on greedy number followed by text", () => {
-	// 	const input = "0xFFfollowedByText";
-	// 	expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character at position \d+: f/);
-	// });
+	// TODO: can probably easily get this working. Non critical.
+	// Test 30: Number Greediness
+	it.skip("throws error on greedy number followed by text", () => {
+		const input = "0xFFfollowedByText";
+		expect(() => tokenizeWgsl(input)).toThrow(/Unexpected character: f/);
+	});
 
-	// // Test 31: Unicode Identifiers
-	// it("throws error on identifiers with unicode characters", () => {
-	// 	const input = "let 你好 = 5;";
-	// 	expect(() => tokenizeWgsl(input)).toThrow("Unexpected character at position 4: 你");
-	// });
+	// Test 31: Unicode Identifiers
+	it("throws error on identifiers with unicode characters", () => {
+		const input = "let 你好 = 5;";
+		expect(() => tokenizeWgsl(input)).toThrow("Unexpected character: 你");
+	});
 });

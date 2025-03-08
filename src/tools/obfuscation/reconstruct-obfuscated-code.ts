@@ -1,4 +1,4 @@
-import Token from "../token";
+import Token from "../../tokenization/token";
 
 
 export default function reconstructObfuscatedCode(obfuscatedTokens: Token[], tokens: Token[]): string{

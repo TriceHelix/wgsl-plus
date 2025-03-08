@@ -1,5 +1,5 @@
 import nextName from "./next-name";
-import Token from "../token";
+import Token from "../../tokenization/token";
 
 export default function collectDeclaredIdentifiersAndEntryPoints(tokens: Token[]): { identifierMap: Map<string, string>, bindingMap: Map<string, string> } {
 

@@ -1,5 +1,5 @@
 import nextName from "./next-name";
-import Token from "../token";
+import Token from "../../tokenization/token";
 import swizzles from "./swizzles";
 
 /**

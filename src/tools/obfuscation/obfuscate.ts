@@ -1,7 +1,7 @@
 import collectDeclaredIdentifiersAndEntryPoints from "./collect-declared-identifiers-and-entry-points";
 import collectStructNames from "./collect-struct-names";
-import Token from "../token";
-import tokenizeWgsl from "../tokenizeWgsl";
+import Token from "../../tokenization/token";
+import tokenizeWgsl from "../../tokenization/tokenize-wgsl";
 import replaceIdentifiers from "./replace-identifiers";
 import reconstructObfuscatedCode from "./reconstruct-obfuscated-code";
 import { resetNameIndex } from "./next-name";

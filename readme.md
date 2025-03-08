@@ -74,7 +74,7 @@ fn my_entry_point() {}
 
 - The minifier and prettifier are both not perfect. But they are passing all essential test cases.
 - Vector swizzling poised all kinds of challenges for the obfuscator. As a result, any struct member that matches any of the >4000 swizzle name combinations (such as yz, xyz, rba, and so on) won't be obfuscated.
-- WGSL-Plus can't scan your code for errors yet.
+- WGSL-Plus can't scan your code for most errors yet with the exception of certain invalid tokens.
 
 ## See Also
 

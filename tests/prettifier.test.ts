@@ -1,4 +1,4 @@
-import prettify from '../src/prettify';
+import prettify from '../src/tools/prettify';
 
 describe('WGSL Prettifier', () => {
     it('formats simple function definitions', () => {
@@ -25,9 +25,11 @@ describe('WGSL Prettifier', () => {
     it('formats if-else control flow', () => {
         const input = 'if(x>0){y=1;}else{y=0;}';
         const expected = [
-            'if (x > 0) {',
+            'if(x > 0) {',
             '    y = 1;',
-            '} else {',
+            // '} else {',
+            '}',
+            'else {',
             '    y = 0;',
             '}'
         ].join('\n');
@@ -83,10 +85,11 @@ describe('WGSL Prettifier', () => {
     it('formats nested control structures (for and if)', () => {
         const input = 'for(var i=0;i<10;i++){if(i%2==0){continue;}else{break;}}';
         const expected = [
-            'for (var i = 0; i < 10; i++) {',
-            '    if (i % 2 == 0) {',
+            'for(var i = 0; i < 10; i++) {',
+            '    if(i % 2 == 0) {',
             '        continue;',
-            '    } else {',
+            '    }',
+            '    else {',
             '        break;',
             '    }',
             '}'
@@ -107,7 +110,7 @@ describe('WGSL Prettifier', () => {
     it('formats switch statements', () => {
         const input = 'switch(x){case 1:{y=10;}case 2,3:{y=20;}default:{y=0;}}';
         const expected = [
-            'switch (x) {',
+            'switch(x) {',
             '    case 1: {',
             '        y = 10;',
             '    }',

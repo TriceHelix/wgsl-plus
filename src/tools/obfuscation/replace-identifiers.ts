@@ -1,4 +1,4 @@
-import Token from "../token";
+import Token from "../../tokenization/token";
 import swizzles from "./swizzles";
 
 export default function replaceIdentifiers(tokens: Token[], identifierMap: Map<string, string>, structMemberMap: Map<string, string>) {

@@ -3,46 +3,13 @@
 import { program } from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
-import prettify from './prettify';
-import minify from './minify';
-import obfuscate from './obfuscation/obfuscate';
+import prettify from './tools/prettify';
+import minify from './tools/minify';
+import obfuscate from './tools/obfuscation/obfuscate';
+import link from './tools/link';
+import generateOutput from './tools/generate-output';
 
-const VERSION = '0.0.1';
-
-// Process a WGSL file, resolving #include directives recursively
-function processFile(filePath: string, processing: Set<string>, includedLines: string[]): void {
-	const absolutePath = path.resolve(filePath);
-
-	// Detect circular dependencies
-	if (processing.has(absolutePath)) {
-		throw new Error(`Circular dependency detected: ${absolutePath}`);
-	}
-
-	// Check if file exists
-	if (!fs.existsSync(absolutePath)) {
-		throw new Error(`File not found: ${absolutePath}`);
-	}
-
-	processing.add(absolutePath);
-	const content = fs.readFileSync(absolutePath, 'utf-8');
-	const lines = content.split('\n');
-
-	for (const line of lines) {
-		const match = line.match(/^#include\s+"(.+)"\s*$/);
-		if (match) {
-			const includePath = match[1];
-			const relativePath = path.resolve(path.dirname(absolutePath), includePath);
-			if (!fs.existsSync(relativePath)) {
-				throw new Error(`Linked file not found: ${includePath} in ${absolutePath}`);
-			}
-			processFile(relativePath, processing, includedLines);
-		} else {
-			includedLines.push(line);
-		}
-	}
-
-	processing.delete(absolutePath);
-}
+const VERSION = '0.1.2';
 
 /**
  * Removes #binding directives from WGSL code.
@@ -61,31 +28,6 @@ function removeBindingDirectives(code: string): string {
 	
 	// Rejoin the remaining lines
 	return filteredLines.join('\n');
-}
-
-// Generate output content based on file extension and export type
-function generateOutput(outputPath: string, content: string, exportType?: string): string {
-	const ext = path.extname(outputPath);
-	if (ext === '.wgsl') {
-		return content;
-	} else if (ext === '.ts') {
-		const escapedContent = content.replace(/`/g, '\\`').replace(/\${/g, '\\${');
-		return `export default \`${escapedContent}\`;`;
-	} else if (ext === '.js') {
-		if (!exportType) {
-			exportType = 'esm';
-		}
-		const escapedContent = content.replace(/`/g, '\\`').replace(/\${/g, '\\${');
-		if (exportType === 'esm') {
-			return `export default \`${escapedContent}\`;`;
-		} else if (exportType === 'commonjs') {
-			return `module.exports = \`${escapedContent}\`;`;
-		} else {
-			throw new Error(`Invalid export type: ${exportType}. Must be 'esm' or 'commonjs'`);
-		}
-	} else {
-		throw new Error(`Unsupported output extension: ${ext}. Must be .wgsl, .js, or .ts`);
-	}
 }
 
 // CLI setup
@@ -156,12 +98,7 @@ program
 
 			let outputContent = "";
 			{ // Process all import files
-				const processing = new Set<string>();
-				const includedLines: string[] = [];
-				for (const importFile of importFiles) {
-					processFile(importFile, processing, includedLines);
-				}
-				outputContent = includedLines.join('\n');
+				outputContent = link(importFiles);
 
 				// Remove the binding directives if obfuscate mode isn't being used.
 				if(!options.obfuscate) outputContent = removeBindingDirectives(outputContent);
@@ -170,8 +107,6 @@ program
 				else if(options.minify) outputContent = minify(outputContent);
 				else if(options.obfuscate) outputContent = obfuscate(outputContent);
 			}
-
-
 
 			{ // Generate and write output
 				const finalOutput = generateOutput(options.output, outputContent, options.exportType);
@@ -185,12 +120,6 @@ program
 		}
 	});
 
-// Custom help command
-program
-	.command('help')
-	.description('Display help information')
-	.action(() => program.help());
-
 // Additional help text
 program.on('--help', () => {
 	console.log('\nExamples:');
@@ -200,7 +129,7 @@ program.on('--help', () => {
 	console.log('\nNotes:');
 	console.log('  • Input files must be .wgsl files.');
 	console.log('  • Output file must be .wgsl, .js, or .ts.');
-	console.log('  • --export-type is required for .js/.ts outputs, ignored for .wgsl.');
+	console.log('  • --export-type is optional for .js outputs. Use commonjs or esm. Default is esm.');
 	console.log('  • Use one or none of --obfuscate, --prettify, or --minify to transform output.');
 });
 

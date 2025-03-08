@@ -1,4 +1,4 @@
-import minify from '../src/minify';
+import minify from '../src/tools/minify';
 
 describe('WGSL Minifier', () => {
     it('minifies simple function definitions', () => {

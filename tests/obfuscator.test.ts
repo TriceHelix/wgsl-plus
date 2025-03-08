@@ -1,10 +1,10 @@
-import collectDeclaredIdentifiersAndEntryPoints from '../src/obfuscation/collect-declared-identifiers-and-entry-points';
-import collectStructNames from '../src/obfuscation/collect-struct-names';
-import { resetNameIndex } from '../src/obfuscation/next-name';
-import obfuscate from '../src/obfuscation/obfuscate'; // Adjust path as needed
-import replaceIdentifiers from '../src/obfuscation/replace-identifiers';
-import Token from '../src/token';
-import tokenizeWgsl from '../src/tokenizeWgsl';
+import collectDeclaredIdentifiersAndEntryPoints from '../src/tools/obfuscation/collect-declared-identifiers-and-entry-points';
+import collectStructNames from '../src/tools/obfuscation/collect-struct-names';
+import { resetNameIndex } from '../src/tools/obfuscation/next-name';
+import obfuscate from '../src/tools/obfuscation/obfuscate'; // Adjust path as needed
+import replaceIdentifiers from '../src/tools/obfuscation/replace-identifiers';
+import Token from '../src/tokenization/token';
+import tokenizeWgsl from '../src/tokenization/tokenize-wgsl';
 
 
 describe("collectStructNames", () => {

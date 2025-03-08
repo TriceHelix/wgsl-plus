@@ -1,6 +1,6 @@
 {
   "name": "wgsl-plus",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A WGSL compiler with linking and multi-format output.",
   "main": "index.js",
   "bin": {
