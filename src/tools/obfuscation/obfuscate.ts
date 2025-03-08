@@ -17,7 +17,7 @@ export default function obfuscate(code: string): string {
 	resetNameIndex();
 
 	// Get all the tokens.
-	const tokens = tokenizeWgsl(code);
+	const tokens = tokenizeWgsl(code).filter(token => token.type !== "comment");
 
 	// Preliminary pass: Collect struct member names
 	let structMemberMap = collectStructNames(tokens);

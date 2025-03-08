@@ -4,7 +4,7 @@ import tokenizeWgsl from "../tokenization/tokenize-wgsl";
 // Main minification function
 export default function minify(code: string): string {
     // Use the comprehensive tokenizer from the obfuscator
-    const tokens = tokenizeWgsl(code);
+    const tokens = tokenizeWgsl(code).filter(token => token.type !== 'comment');
     let output = '';
     
     // First pass: identify struct definitions to remove trailing semicolons
