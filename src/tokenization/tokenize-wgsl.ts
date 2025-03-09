@@ -15,9 +15,6 @@ export default function tokenizeWgsl(code: string): Token[] {
 	const directiveRegex = /^#(\w+)\s+"([^"]+)"/;
 	const attributeRegex = /^@(?:[a-zA-Z_][a-zA-Z0-9_]*)(?:\((?:[^()]+|\([^()]*\))*\))?/;
 
-	// Import these from your tokenizer module
-	const { wgslBuiltins, wgslKeywords } = require("./wgsl-tokens");
-
 	while (index < code.length) {
 		const slice = code.slice(index);
 		let match: RegExpExecArray | null = null;

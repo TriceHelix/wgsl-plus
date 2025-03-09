@@ -8,6 +8,7 @@ import minify from './tools/minify';
 import obfuscate from './tools/obfuscation/obfuscate';
 import link from './tools/link';
 import generateOutput from './tools/generate-output';
+import preprocessWgsl from './tools/preprocessing/preprocess-wgsl';
 
 const VERSION = '0.1.2';
 
@@ -99,6 +100,9 @@ program
 			let outputContent = "";
 			{ // Process all import files
 				outputContent = link(importFiles);
+
+				// Handle define statements.
+				outputContent = preprocessWgsl(outputContent);
 
 				// Remove the binding directives if obfuscate mode isn't being used.
 				if(!options.obfuscate) outputContent = removeBindingDirectives(outputContent);
