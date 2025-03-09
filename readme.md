@@ -203,13 +203,13 @@ fn vs_main(in: VertexInput) -> VertexOutput {
 
 ## Notes and Limitations
 
-- Preprocessor directives must be at the beginning of a line (with optional whitespace before the `#`)
-- Macros are textually expanded before compilation, similar to the C preprocessor
-- The preprocessor runs before any shader compilation, ensuring that only the selected code paths are compiled
-- The minifier and prettifier are functional but not perfect
-- Vector swizzling poses challenges for the obfuscator - struct members matching any of the >4000 swizzle name combinations (e.g., yz, xyz, rba) won't be obfuscated
-- WGSL-Plus can't scan for most errors yet, with the exception of certain invalid tokens
-- Unlike C, the WGSL preprocessor does not support `#pragma` or `#error` directives
+- Preprocessor directives must be at the beginning of a line (with optional whitespace before the `#`).
+- Macros are textually expanded before compilation, similar to the C preprocessor.
+- The preprocessor runs before any shader compilation, ensuring that only the selected code paths are compiled.
+- The prettifier is the only thing currently failing about 5 non-critical test cases related to various whitespace nuances.
+- Vector swizzling poses challenges for the obfuscator - struct members matching any of the >4000 swizzle name combinations (e.g., yz, xyz, rba) won't be obfuscated.
+- WGSL-Plus can't scan for most errors yet, with the exception of certain invalid tokens.
+- Unlike C, the WGSL preprocessor does not support `#pragma` or `#error` directives.
 
 ## Development
 
