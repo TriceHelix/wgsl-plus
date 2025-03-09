@@ -1,6 +1,6 @@
 {
   "name": "wgsl-plus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A WGSL preprocessor, prettifier, minifier, obfuscator, and compiler with C-style macros, conditional compilation, file linking, and multi-format output for WebGPU shaders.",
   "main": "index.js",
   "bin": {

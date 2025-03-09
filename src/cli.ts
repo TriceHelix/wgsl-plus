@@ -10,7 +10,7 @@ import link from './tools/link';
 import generateOutput from './tools/generate-output';
 import preprocessWgsl from './tools/preprocessing/preprocess-wgsl';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 
 /**
  * Removes #binding directives from WGSL code.
