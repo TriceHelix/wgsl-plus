@@ -1,5 +1,5 @@
-import Token from "./token";
-import { wgslBuiltins, wgslKeywords } from "./wgsl-tokens";
+import Token from './token.d.ts';
+import { wgslBuiltins, wgslKeywords } from './wgsl-tokens.ts';
 
 export default function tokenizeWgsl(code: string): Token[] {
 	const tokens: Token[] = [];

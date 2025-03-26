@@ -1,5 +1,5 @@
-import Token from "../../tokenization/token";
-import swizzles from "./swizzles";
+import Token from '../../tokenization/token.d.ts';
+import swizzles from './swizzles.ts';
 
 export default function replaceIdentifiers(tokens: Token[], identifierMap: Map<string, string>, structMemberMap: Map<string, string>) {
     const obfuscatedTokens: Token[] = [];

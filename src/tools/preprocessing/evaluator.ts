@@ -1,4 +1,4 @@
-import { Macro } from './types';
+import { Macro } from './types.d.ts';
 
 /**
  * Evaluates a preprocessor conditional expression (whether conditions are true or false).
@@ -83,7 +83,7 @@ export function evaluateExpression(expr: string, defines: Map<string, Macro>): b
 	try {
 		// Evaluate the expression directly
 		return eval(expr) ? true : false;
-	} catch (e) {
+	} catch (e: any) {
 		// Log the error for debugging
 		console.error(`Evaluation error for expression: "${expr}". ${e.message}`);
 		return false; // Default to false on error

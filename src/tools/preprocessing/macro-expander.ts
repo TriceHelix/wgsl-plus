@@ -1,4 +1,4 @@
-import { Macro } from './types';
+import { Macro } from './types.d.ts';
 
 /**
  * Expands macros in a line of code

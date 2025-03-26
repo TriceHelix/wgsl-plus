@@ -1,6 +1,6 @@
-import nextName from "./next-name";
-import Token from "../../tokenization/token";
-import swizzles from "./swizzles";
+import nextName from './next-name.ts';
+import Token from '../../tokenization/token.d.ts';
+import swizzles from './swizzles.ts';
 
 /**
  * Checks if an identifier could be a vector swizzle.

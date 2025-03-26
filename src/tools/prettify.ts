@@ -1,5 +1,5 @@
-import Token from "../tokenization/token";
-import tokenizeWgsl from "../tokenization/tokenize-wgsl";
+import Token from '../tokenization/token.d.ts';
+import tokenizeWgsl from '../tokenization/tokenize-wgsl.ts';
 
 // Helper function to check if a token is punctuation
 function isPunctuation(token: Token): boolean {
@@ -18,7 +18,7 @@ function isTypeAngleBracket(tokens: Token[], index: number): boolean {
     if (token.value === '<') {
         // Check if preceded by a type name
         const prevToken = index > 0 ? tokens[index - 1] : null;
-        return prevToken && (prevToken.type === 'identifier' || prevToken.type === 'builtin');
+        return (prevToken != null) && (prevToken.type === 'identifier' || prevToken.type === 'builtin');
     } else {
         // For '>', check if it's closing a type angle bracket
         let depth = 1;

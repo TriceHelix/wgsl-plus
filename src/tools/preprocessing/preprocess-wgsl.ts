@@ -1,5 +1,5 @@
-import { Macro } from './types';
-import { processConditionals } from './conditional-processor';
+import { Macro } from './types.d.ts';
+import { processConditionals } from './conditional-processor.ts';
 
 /**
  * Preprocesses WGSL code, handling C-like preprocessor directives:

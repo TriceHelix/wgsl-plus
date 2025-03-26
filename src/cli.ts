@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-import { program } from 'commander';
-import * as fs from 'fs';
-import * as path from 'path';
-import prettify from './tools/prettify';
-import minify from './tools/minify';
-import obfuscate from './tools/obfuscation/obfuscate';
-import link from './tools/link';
-import generateOutput from './tools/generate-output';
-import preprocessWgsl from './tools/preprocessing/preprocess-wgsl';
+import { program } from 'npm:commander';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import prettify from './tools/prettify.ts';
+import minify from './tools/minify.ts';
+import obfuscate from './tools/obfuscation/obfuscate.ts';
+import link from './tools/link.ts';
+import generateOutput from './tools/generate-output.ts';
+import preprocessWgsl from './tools/preprocessing/preprocess-wgsl.ts';
 
 const VERSION = '1.0.1';
 
@@ -91,7 +91,7 @@ program
 
 				// Make sure only one of --obfuscate, --minify, or --prettify is used
 				const transformFlags = ['obfuscate', 'minify', 'prettify'];
-				const usedTransformFlags = transformFlags.filter(flag => options[flag]);
+				const usedTransformFlags = transformFlags.filter(flag => options[flag as keyof typeof options]);
 				if (usedTransformFlags.length > 1) {
 					throw new Error(`Only one of ${transformFlags.join(', ')} can be used`);
 				}
@@ -118,7 +118,7 @@ program
 				fs.mkdirSync(outputDir, { recursive: true });
 				fs.writeFileSync(outputPath, finalOutput);
 			}
-		} catch (error) {
+		} catch (error: any) {
 			console.error(`Error: ${error.message}`);
 			process.exit(1);
 		}

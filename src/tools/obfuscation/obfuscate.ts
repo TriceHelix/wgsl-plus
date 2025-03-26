@@ -1,10 +1,10 @@
-import collectDeclaredIdentifiersAndEntryPoints from "./collect-declared-identifiers-and-entry-points";
-import collectStructNames from "./collect-struct-names";
-import Token from "../../tokenization/token";
-import tokenizeWgsl from "../../tokenization/tokenize-wgsl";
-import replaceIdentifiers from "./replace-identifiers";
-import reconstructObfuscatedCode from "./reconstruct-obfuscated-code";
-import { resetNameIndex } from "./next-name";
+import collectDeclaredIdentifiersAndEntryPoints from './collect-declared-identifiers-and-entry-points.ts';
+import collectStructNames from './collect-struct-names.ts';
+import Token from '../../tokenization/token.d.ts';
+import tokenizeWgsl from '../../tokenization/tokenize-wgsl.ts';
+import replaceIdentifiers from './replace-identifiers.ts';
+import reconstructObfuscatedCode from './reconstruct-obfuscated-code.ts';
+import { resetNameIndex } from './next-name.ts';
 
 /**
  * Obfuscates WGSL code by renaming explicitly declared functions, variables, structs, and function parameters,

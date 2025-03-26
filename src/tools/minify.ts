@@ -1,5 +1,5 @@
-import Token from "../tokenization/token";
-import tokenizeWgsl from "../tokenization/tokenize-wgsl";
+import Token from '../tokenization/token.d.ts';
+import tokenizeWgsl from '../tokenization/tokenize-wgsl.ts';
 
 // Main minification function
 export default function minify(code: string): string {

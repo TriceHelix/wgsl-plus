@@ -1,5 +1,5 @@
-import Token from "../src/tokenization/token";
-import tokenizeWgsl from "../src/tokenization/tokenize-wgsl";
+import Token from '../src/tokenization/token.d.ts';
+import tokenizeWgsl from '../src/tokenization/tokenize-wgsl.ts';
 
 describe("tokenizeWgsl", () => {
 	// Test 1: Keywords and Identifiers

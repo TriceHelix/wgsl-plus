@@ -1,5 +1,5 @@
-import path from "path";
-import * as fs from 'fs';
+import path from 'node:path';
+import * as fs from 'node:fs';
 
 // Process a WGSL file, resolving #include directives recursively
 function getIncludedLines(filePath: string, processing: Set<string>, includedLines: string[]): void {

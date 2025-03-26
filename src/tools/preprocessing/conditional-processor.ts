@@ -1,6 +1,6 @@
-import { Macro, ConditionalState } from './types';
-import { evaluateExpression } from './evaluator';
-import { expandMacros } from './macro-expander';
+import { Macro, ConditionalState } from './types.d.ts';
+import { evaluateExpression } from './evaluator.ts';
+import { expandMacros } from './macro-expander.ts';
 
 /**
  * Processes a WGSL file for conditional compilation directives

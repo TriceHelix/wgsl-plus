@@ -1,4 +1,4 @@
-import path from "path";
+import path from 'node:path';
 
 export default // Generate output content based on file extension and export type
 function generateOutput(outputPath: string, content: string, exportType?: string): string {
